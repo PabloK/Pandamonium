@@ -4,7 +4,9 @@
  "level": {},
  "skyColor" : "0x00a498",
  "player": { "sprite": "../../img/panda.png", 
-             "startPositionX": 200, 
-             "startPositionY": 400
+             "startPositionX": 300, 
+             "startPositionY": 400,
+             "maxMovementSpeed": 3,
+             "acceleration": 0.035
            }
 }

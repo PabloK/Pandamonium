@@ -1,9 +1,10 @@
 (function() {
-    PIXI.SpriteAnimation = function(texture, frames, rows, animationtime, loop) {
+    PIXI.SpriteAnimation = function(texture, frames, rows, frametime, loop) {
         PIXI.Sprite.call(this, texture);
-
+        
+        this._stop = true;
         this._texture = new PIXI.Texture(texture);
-        this.frameTime = animationtime / frames;
+        this.frameTime = frametime;
         this.loop = loop || true;
         this.curX = 0;
         this.curY = 0;
@@ -27,7 +28,10 @@
     });
 
     PIXI.SpriteAnimation.prototype.update = function() {
-        this.ticks += 1;
+        
+        if(!this._stop) {
+          this.ticks += 1;
+        }
 
         if (this.done == false) {
             if (this.ticks >= this.frameTime) {
@@ -55,6 +59,14 @@
     PIXI.SpriteAnimation.prototype.goto = function(frame, row) {
         this.curX = frame;
         this.curY = row || 0;
+    };
+  
+    PIXI.SpriteAnimation.prototype.stop = function() {
+        this._stop = true;
+    };
+  
+    PIXI.SpriteAnimation.prototype.play = function() {
+        this._stop = false;
     };
 
     PIXI.SpriteAnimation.prototype.calculateFrame = function() {

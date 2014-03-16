@@ -1,0 +1,9 @@
+{
+ "far": {}, 
+ "mid": {},
+ "level": {},
+ "player": { "texture": "../../img/panda.png", 
+             "startPositionX": 200, 
+             "startPositionY": 400
+           }
+}

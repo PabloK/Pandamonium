@@ -1,0 +1,10 @@
+{
+  "start": {
+    "message":"START"
+    ,"description":"The command to start the game"
+  },
+  "title": {
+    "message":"Pandamonium"
+    ,"description":"The title of the game"
+  }
+}

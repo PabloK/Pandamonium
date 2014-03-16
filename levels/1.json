@@ -2,7 +2,8 @@
  "far": {}, 
  "mid": {},
  "level": {},
- "player": { "texture": "../../img/panda.png", 
+ "skyColor" : "0x00a498",
+ "player": { "sprite": "../../img/panda.png", 
              "startPositionX": 200, 
              "startPositionY": 400
            }

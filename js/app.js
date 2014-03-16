@@ -2,6 +2,7 @@
 // App - Initializes angular support aplication
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 'use strict';
+log.setLevel("info");
 log.info("Intializing angular");
 
 var App = angular.module('pandamonium', 

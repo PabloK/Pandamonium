@@ -1,12 +1,15 @@
 {
- "far": {}, 
+ "skyColor" : "0x00a498",
+ "far": {
+  "texture": "../../img/far.png"
+ }, 
  "mid": {},
  "level": {},
- "skyColor" : "0x00a498",
- "player": { "sprite": "../../img/panda.png", 
-             "startPositionX": 300, 
-             "startPositionY": 400,
-             "maxMovementSpeed": 3,
-             "acceleration": 0.035
-           }
+ "player": { 
+   "sprite": "../../img/panda.png", 
+   "startPositionX": 300, 
+   "startPositionY": 400,
+   "maxMovementSpeed": 3,
+   "acceleration": 0.05
+  }
 }

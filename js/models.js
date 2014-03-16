@@ -38,26 +38,30 @@ Game.prototype.preloadLevelAssets = function() {
   
   // use this.levelDataFromJSON to extract preloadables;
   assetsToLoad.push(this.levelDataFromJSON.player.sprite);
-  
+  assetsToLoad.push(this.levelDataFromJSON.far.texture);
   
   var loader = new PIXI.AssetLoader(assetsToLoad, true);
   
   loader.onComplete = this.initializeLevel.bind(this);
-  loader.onprogress = this.progress.bind(this);
+  loader.addEventListener("onProgress", function(e) {this.progress(e)}.bind(this));
   loader.load();
 };
 
 Game.prototype.initializeLevel = function() {
   log.info("Initializing level");
   this.stage.setBackgroundColor(this.levelDataFromJSON.skyColor);
+
   this.player = new Player(this.levelDataFromJSON.player); 
-  this.player.goto(1);
+  this.level.far = new Far(this.levelDataFromJSON.far);
+  
+  this.stage.addChild(this.level.far);  
   this.stage.addChild(this.player);  
   this.startGame();
 };
 
-Game.prototype.progress = function (data) {
-  
+Game.prototype.progress = function (e) {
+  var prct = 1 - (e.content.loadCount / e.content.assetURLs.length); 
+  log.info("Loaded: " + prct*100  + "%" )
 };
 
 Game.prototype.startGame = function() {
@@ -92,6 +96,7 @@ function Player(playerData)  {
   log.info("Creating new player");
   this._texture = new PIXI.Texture.fromFrame(playerData.sprite);
   PIXI.SpriteAnimation.call(this, this.texture, 10, 1, 2, true);
+  this.goto(1);
   this.scale.x = this.scale.y = 3;
   this.anchor = new PIXI.Point(0.5, 0.5);
   this.position.x = playerData.startPositionX;
@@ -99,7 +104,7 @@ function Player(playerData)  {
   this.maxMovementSpeed = playerData.maxMovementSpeed;
   this.accT = new TransfereValues(playerData.acceleration);
   this._movementSpeed = 0;
-  this.movementState = Player.MOVEMENTSTATES.LEFT;
+  this.movementState = Player.MOVEMENTSTATES.LEFT; // TODO: Encapsulate this and switch animations here
 }
 Player.MOVEMENTSTATES = { STOPPING: 0, LEFT: 1, RIGHT: 2 };
 Player.prototype.constructor = Player;
@@ -181,3 +186,18 @@ TransfereValues.prototype.decrease = function() {
     this._transfereValue -= this._acc;
     this._transfereValue = Math.max(this._transfereValue, -1.0);
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TransfereValue -- TODO concider adding exponential mode
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Far( farData ){
+  log.info("Creating new far background");
+  this._texture = new PIXI.Texture.fromFrame(farData.texture);
+  PIXI.TilingSprite.call(this, this._texture,800,600);
+  this.scale.x = 1;
+  this.scale.y = 1;
+  this.position.x = 0;
+  this.position.y = 0;
+}
+Far.prototype.constructor = Far;
+Far.prototype = Object.create(PIXI.TilingSprite.prototype);

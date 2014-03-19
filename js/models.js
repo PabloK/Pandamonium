@@ -192,13 +192,13 @@ TransfereValues.prototype.decrease = function() {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-// TransfereValue -- TODO concider adding exponential mode
+// BackgroundLayer - Generates a background tile that can travel with the camera
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 function BackgroundLayer( farData, speedMultiplier ){
   log.info("Creating new far background");
   this._texture = new PIXI.Texture.fromFrame(farData.texture);
   this._speedMultiplier = speedMultiplier;
-  PIXI.TilingSpriteAnimation.call(this, this.texture, 2, 1, 20, true);
+  PIXI.TilingSpriteAnimation.call(this, this.texture, 1, 1, 40, true);
   this.scale.x = 1;
   this.scale.y = 1;
   this.position.x = 0;

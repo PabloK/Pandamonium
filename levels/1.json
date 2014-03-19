@@ -6,9 +6,6 @@
  "mid": { 
    "texture": "../../img/mid.png"
  },
-   "mid2": { 
-   "texture": "../../img/mid.png"
- },
  "level": {},
  "player": { 
    "sprite": "../../img/panda.png", 

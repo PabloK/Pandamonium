@@ -52,7 +52,7 @@ Game.prototype.initializeLevel = function() {
   this.stage.setBackgroundColor(this.levelDataFromJSON.skyColor);
 
   this.player = new Player(this.levelDataFromJSON.player); 
-  this.level.far = new Far(this.levelDataFromJSON.far);
+  this.level.far = new BackgroundLayer(this.levelDataFromJSON.far, 2);
   
   this.stage.addChild(this.level.far);  
   this.stage.addChild(this.player);  
@@ -76,7 +76,11 @@ Game.prototype.gameLoop = function () {
 }
 
 Game.prototype.updateScene = function() {
-  this.player.update();
+  this.stage.children.forEach(function(data){
+    if(typeof(data.update) === "function"){
+      data.update();
+    }
+  });
   if (this.player.position.x < 100) {
     this.player.movementState = Player.MOVEMENTSTATES.RIGHT; 
   } 
@@ -190,14 +194,21 @@ TransfereValues.prototype.decrease = function() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // TransfereValue -- TODO concider adding exponential mode
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Far( farData ){
+function BackgroundLayer( farData, speedMultiplier ){
   log.info("Creating new far background");
   this._texture = new PIXI.Texture.fromFrame(farData.texture);
-  PIXI.TilingSprite.call(this, this._texture,800,600);
+  this._speedMultiplier = speedMultiplier;
+  PIXI.TilingSpriteAnimation.call(this, this.texture, 2, 1, 20, true);
   this.scale.x = 1;
   this.scale.y = 1;
   this.position.x = 0;
   this.position.y = 0;
+  this.play();
 }
-Far.prototype.constructor = Far;
-Far.prototype = Object.create(PIXI.TilingSprite.prototype);
+BackgroundLayer.prototype.constructor = BackgroundLayer;
+BackgroundLayer.prototype = Object.create(PIXI.TilingSpriteAnimation.prototype);
+
+BackgroundLayer.prototype.update = function(){
+  this.tilePosition.x -= 0.5*this._speedMultiplier;
+  PIXI.TilingSpriteAnimation.prototype.update.bind(this).call();
+};

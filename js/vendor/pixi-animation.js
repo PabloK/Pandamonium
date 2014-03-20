@@ -1,5 +1,5 @@
 (function() {
-    PIXI.SpriteAnimation = function(texture, frames, rows, frametime, loop) {
+    PIXI.SpriteAnimation = function(texture, frames, frametime, loop) {
         PIXI.Sprite.call(this, texture);
         
         this._stop = true;
@@ -8,11 +8,10 @@
         this.loop = loop || true;
         this.curX = 0;
         this.curY = 0;
-        this.fh = this._texture.height / rows;
+        this.fh = this._texture.height ;
         this.fw = this._texture.width / frames;
         this.ticks = 0;
         this.maxFrames = frames;
-        this.maxRows = rows;
         this.done = false;
 
         this.calculateFrame();
@@ -28,27 +27,19 @@
     });
 
     PIXI.SpriteAnimation.prototype.update = function() {
-        
-        if(!this._stop) {
-          this.ticks += 1;
-        }
 
-        if (this.done == false) {
+        if (this._stop == false) {
+          this.ticks += 1;
             if (this.ticks >= this.frameTime) {
                 this.curX++;
                 this.ticks = 0;
 
                 if (this.curX == this.maxFrames) {
                     this.curX = 0;
-
-                    this.curY++;
-
-                    if (this.curY == this.maxRows) {
-                        this.curY = 0;
-
-                        if (!this.loop)
-                            this.done = true;
-                    }
+                  
+                        if (!this.loop) { 
+                          this._stop = true;
+                        }
                 }
 
                 this.calculateFrame();
@@ -56,9 +47,8 @@
         }
     };
 
-    PIXI.SpriteAnimation.prototype.goto = function(frame, row) {
+    PIXI.SpriteAnimation.prototype.goto = function(frame) {
         this.curX = frame;
-        this.curY = row || 0;
     };
   
     PIXI.SpriteAnimation.prototype.stop = function() {
@@ -71,7 +61,7 @@
 
     PIXI.SpriteAnimation.prototype.calculateFrame = function() {
         this.texture.frame.x = this.curX * this.fw;
-        this.texture.frame.y = this.curY * this.fh;
+        this.texture.frame.y = 0;
         this.texture.frame.width = this.fw;
         this.texture.frame.height = this.fh;
         this.texture.setFrame(this.texture.frame);
@@ -83,25 +73,27 @@
 /// Tiling Sprite Animation
 /////////////////////////////////////////////////////////////////////////////
 (function() {
-    PIXI.TilingSpriteAnimation = function(texture, frames, rows, frametime, loop)  {
+    PIXI.TilingSpriteAnimation = function(texture, frames, frametime, loop)  {
           PIXI.TilingSprite.call(
             this, texture,
             VIEWPORTWIDTH,
-            this._texture.baseTexture.height);
+            VIEWPORTHEIGHT);
         
         this._stop = true;
         this._texture = new PIXI.Texture(texture);
         this.frameTime = frametime;
         this.loop = loop || true;
         this.curX = 0;
-        this.curY = 0;
-        this.fh = this._texture.height / rows;
+        this.fh = this._texture.height;
         this.fw = this._texture.width / frames;
         this.ticks = 0;
         this.maxFrames = frames;
-        this.maxRows = rows;
         this.done = false;
-
+      
+        for (var i=0;i<frames;i++){
+          this.preLoadFrame(i);
+        }
+      
         this.calculateFrame();
     };
 
@@ -115,13 +107,9 @@
     });
 
     PIXI.TilingSpriteAnimation.prototype.update = function() {
-        
-        console.log(this.ticks);
-        if(!this._stop) {
-          this.ticks += 1;
-        }
 
-        if (this.done == false) {
+        if (this._stop == false) {
+            this.ticks += 1;
             if (this.ticks >= this.frameTime) {
                 this.curX++;
                 this.ticks = 0;
@@ -129,13 +117,8 @@
                 if (this.curX == this.maxFrames) {
                     this.curX = 0;
 
-                    this.curY++;
-
-                    if (this.curY == this.maxRows) {
-                        this.curY = 0;
-
-                        if (!this.loop)
-                            this.done = true;
+                    if (!this.loop) {
+                        this._stop = true;
                     }
                 }
                 this.calculateFrame();
@@ -143,9 +126,8 @@
         }
     };
 
-    PIXI.TilingSpriteAnimation.prototype.goto = function(frame, row) {
+    PIXI.TilingSpriteAnimation.prototype.goto = function(frame) {
         this.curX = frame;
-        this.curY = row || 0;
     };
   
     PIXI.TilingSpriteAnimation.prototype.stop = function() {
@@ -157,12 +139,18 @@
     };
 
     PIXI.TilingSpriteAnimation.prototype.calculateFrame = function() {
-        this.texture.frame.x = this.curX * this.fw;
-        this.texture.frame.y = this.curY * this.fh;
-        this.texture.frame.width = this.fw;
-        this.texture.frame.height = this.fh;
-        this.texture.setFrame(this.texture.frame);
-        this.generateTilingTexture(this.texture);
+      this.tilingTexture = PIXI.Texture.fromFrame("texture" + this.curX);
     };
-
+  
+    PIXI.TilingSpriteAnimation.prototype.preLoadFrame = function(frame) {
+        var text = new PIXI.TilingSprite(this.texture);
+        text.texture.frame.x = frame * this.fw;
+        text.texture.frame.y = 0;
+        text.texture.frame.width = this.fw;
+        text.texture.frame.height = this.fh;
+        text.texture.setFrame(text.texture.frame);  
+        text.generateTilingTexture(text);
+        
+        PIXI.Texture.addTextureToCache(text.tilingTexture, "texture" + frame)
+    };
 }).call(this);

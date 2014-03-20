@@ -198,7 +198,7 @@ function BackgroundLayer( farData, speedMultiplier ){
   log.info("Creating new far background");
   this._texture = new PIXI.Texture.fromFrame(farData.texture);
   this._speedMultiplier = speedMultiplier;
-  PIXI.TilingSpriteAnimation.call(this, this.texture, 38, 1, 10, true);
+  PIXI.TilingSpriteAnimation.call(this, this.texture, 38, 10, true);
   this.scale.x = 1;
   this.scale.y = 1;
   this.position.x = 0;

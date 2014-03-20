@@ -99,9 +99,9 @@ Game.prototype.updateScene = function() {
 function Player(playerData)  {
   log.info("Creating new player");
   this._texture = new PIXI.Texture.fromFrame(playerData.sprite);
-  PIXI.SpriteAnimation.call(this, this.texture, 10, 1, 2, true);
+  PIXI.SpriteAnimation.call(this, this.texture, 10, 2, true); // Make into config in playerdata
   this.goto(1);
-  this.scale.x = this.scale.y = 3;
+  this.scale.x = this.scale.y = 3; // TODO: Make into config in playerdata
   this.anchor = new PIXI.Point(0.5, 0.5);
   this.position.x = playerData.startPositionX;
   this.position.y = playerData.startPositionY;
@@ -194,21 +194,21 @@ TransfereValues.prototype.decrease = function() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // BackgroundLayer - Generates a background tile that can travel with the camera
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-function BackgroundLayer( farData, speedMultiplier ){
+function BackgroundLayer( farData, distanceMultiplier ){
   log.info("Creating new far background");
   this._texture = new PIXI.Texture.fromFrame(farData.texture);
-  this._speedMultiplier = speedMultiplier;
-  PIXI.TilingSpriteAnimation.call(this, this.texture, 38, 10, true);
-  this.scale.x = 1;
-  this.scale.y = 1;
-  this.position.x = 0;
-  this.position.y = 0;
+  this._distanceMultiplier = distanceMultiplier;
+  PIXI.TilingSpriteAnimation.call(this, this.texture, farData.frames, farData.frameSpeed, true);
+  this.scale.x = farData.scaleX;
+  this.scale.y = farData.scaleY;
+  this.position.x = farData.posX;
+  this.position.y = farData.posY;
   this.play();
 }
 BackgroundLayer.prototype.constructor = BackgroundLayer;
 BackgroundLayer.prototype = Object.create(PIXI.TilingSpriteAnimation.prototype);
 
 BackgroundLayer.prototype.update = function(){
-  this.tilePosition.x -= 0.5*this._speedMultiplier;
+  this.tilePosition.x -= 0.5*this._distanceMultiplier; // TODO 0.5 could be leveldata background distance
   PIXI.TilingSpriteAnimation.prototype.update.bind(this).call();
 };

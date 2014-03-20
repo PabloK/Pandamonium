@@ -1,17 +1,29 @@
 {
  "skyColor" : "0x00a498",
  "far": {
-  "texture": "../../img/far.png"
+  "texture": "../../img/far.png",
+  "frames": 43,
+  "frameSpeed": 6,
+  "scaleX": 1,
+  "scaleY": 1,
+  "posX": 0,
+  "posY": 0
  }, 
  "mid": { 
-   "texture": "../../img/mid.png"
+   "texture": "../../img/mid.png",
+   "frames": 2,
+   "frameSpeed": 100,
+   "scaleX": 1,
+   "scaleY": 1,
+   "posX": 1,
+   "posY": 1
  },
  "level": {},
  "player": { 
    "sprite": "../../img/panda.png", 
    "startPositionX": 300, 
    "startPositionY": 400,
-   "maxMovementSpeed": 3,
+   "maxMovementSpeed": 4,
    "acceleration": 0.05
   }
 }

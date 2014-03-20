@@ -88,7 +88,6 @@
         this.fw = this._texture.width / frames;
         this.ticks = 0;
         this.maxFrames = frames;
-        this.done = false;
       
         for (var i=0;i<frames;i++){
           this.preLoadFrame(i);
@@ -139,7 +138,7 @@
     };
 
     PIXI.TilingSpriteAnimation.prototype.calculateFrame = function() {
-      this.tilingTexture = PIXI.Texture.fromFrame("texture" + this.curX);
+      this.tilingTexture = PIXI.Texture.fromFrame( this.texture.baseTexture.source + this.curX);
     };
   
     PIXI.TilingSpriteAnimation.prototype.preLoadFrame = function(frame) {
@@ -151,6 +150,6 @@
         text.texture.setFrame(text.texture.frame);  
         text.generateTilingTexture(text);
         
-        PIXI.Texture.addTextureToCache(text.tilingTexture, "texture" + frame)
+        PIXI.Texture.addTextureToCache(text.tilingTexture, text.texture.baseTexture.source + frame)
     };
 }).call(this);

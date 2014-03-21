@@ -2,7 +2,7 @@
  "skyColor" : "0x00a498",
  "far": {
   "texture": "../../img/far.png",
-  "frames": 43,
+  "frames": 60,
   "frameSpeed": 6,
   "scaleX": 1,
   "scaleY": 1,

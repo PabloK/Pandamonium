@@ -1,3 +1,4 @@
+'use strict';
 function gameCtrl($scope) {
   
   log.info("Initializing game window");

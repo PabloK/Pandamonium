@@ -2,7 +2,7 @@
  "skyColor" : "0x00a498",
  "far": {
   "texture": "../../img/far.png",
-  "frames": 60,
+  "frames": 1,
   "frameSpeed": 6,
   "scaleX": 1,
   "scaleY": 1,
@@ -10,13 +10,13 @@
   "posY": 0
  }, 
  "mid": { 
-   "texture": "../../img/mid.png",
-   "frames": 2,
-   "frameSpeed": 100,
+   "texture": "../../img/clouds.png",
+   "frames": 60,
+   "frameSpeed": 10,
    "scaleX": 1,
    "scaleY": 1,
-   "posX": 1,
-   "posY": 1
+   "posX": 0,
+   "posY": 0
  },
  "level": {},
  "player": { 

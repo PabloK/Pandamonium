@@ -39,6 +39,7 @@ Game.prototype.preloadLevelAssets = function() {
   // use this.levelDataFromJSON to extract preloadables;
   assetsToLoad.push(this.levelDataFromJSON.player.sprite);
   assetsToLoad.push(this.levelDataFromJSON.far.texture);
+  assetsToLoad.push(this.levelDataFromJSON.mid.texture);
   
   var loader = new PIXI.AssetLoader(assetsToLoad, true);
   
@@ -53,8 +54,10 @@ Game.prototype.initializeLevel = function() {
 
   this.player = new Player(this.levelDataFromJSON.player); 
   this.level.far = new BackgroundLayer(this.levelDataFromJSON.far, 2);
+  this.level.mid = new BackgroundLayer(this.levelDataFromJSON.mid, 2);
   
-  this.stage.addChild(this.level.far);  
+  this.stage.addChild(this.level.far);
+  this.stage.addChild(this.level.mid);
   this.stage.addChild(this.player);  
   this.startGame();
 };
@@ -194,15 +197,15 @@ TransfereValues.prototype.decrease = function() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // BackgroundLayer - Generates a background tile that can travel with the camera
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-function BackgroundLayer( farData, distanceMultiplier ){
+function BackgroundLayer( textureData, distanceMultiplier ){
   log.info("Creating new far background");
-  this._texture = new PIXI.Texture.fromFrame(farData.texture);
+  this._texture = new PIXI.Texture.fromFrame(textureData.texture);
   this._distanceMultiplier = distanceMultiplier;
-  PIXI.TilingSpriteAnimation.call(this, this.texture, farData.frames, farData.frameSpeed, true);
-  this.scale.x = farData.scaleX;
-  this.scale.y = farData.scaleY;
-  this.position.x = farData.posX;
-  this.position.y = farData.posY;
+  PIXI.TilingSpriteAnimation.call(this, this.texture, textureData.frames, textureData.frameSpeed, true);
+  this.scale.x = textureData.scaleX;
+  this.scale.y = textureData.scaleY;
+  this.position.x = textureData.posX;
+  this.position.y = textureData.posY;
   this.play();
 }
 BackgroundLayer.prototype.constructor = BackgroundLayer;

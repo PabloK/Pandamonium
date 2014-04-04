@@ -38,10 +38,7 @@ App.run(function($rootScope,$q) {
       
     }, true);
   
-  
-    
-  
-  
+
     log.info("Initializing rootscope localization function");
     $rootScope.lz = function (string) {
         if (!$rootScope.languageLoaded) {return null;}

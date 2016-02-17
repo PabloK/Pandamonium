@@ -13,5 +13,5 @@ but may work in firefox, safari or other browsers provided the following techniq
 ###Development setup
 To install this software as a developer do the following.
 
-* git clone https://github.com/PabloK/Zodiac.git
+* git clone https://github.com/PabloK/Pandamonium.git
 * open the pandamonium.html in brackets and launch live prewview to ensue in the adventure
